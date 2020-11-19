@@ -6,11 +6,15 @@ function newId(array) {
   }
 }
 
+import fs from 'fs';
+import path from 'path';
+
 class MessageApp {
-  constructor() {
-    this.messages = [];
+  constructor(filepath) {
+    this.filepath = filepath;
+    this.messages = filepath ? this.readFromJson() : [];
   }
-  // Create
+  // C
   post(message) {
     let item = {
       id: newId(this.messages),
@@ -20,20 +24,31 @@ class MessageApp {
     this.messages.push(item);
     return this.messages;
   }
-  // Read
+  // R
   get(id) {
-    return this.messages.filter((message) => message.id === id)[0];
+    return this.messages.filter((message) => message.id == id)[0];
   }
-  // Update
+  // U
   update(id, update) {
-    let index = this.messages.findIndex((message) => message.id === id);
+    let index = this.messages.findIndex((message) => message.id == id);
     this.messages[index].content = update;
   }
-  // Destroy
+  // D
   delete(id) {
-    this.messages = this.messages.filter((message) => message.id !== id);
+    this.messages = this.messages.filter((message) => message.id != id);
     return this.messages;
   }
-}
 
+  readFromJson() {
+    return JSON.parse(
+      fs.readFileSync(
+        __dirname + path.join(this.filepath),
+        'utf8',
+        (err, data) => {
+          if (err) throw err;
+        }
+      )
+    );
+  }
+}
 export default MessageApp;
