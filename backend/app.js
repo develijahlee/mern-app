@@ -15,37 +15,53 @@ class MessageApp {
     this.messages = filepath ? this.readFromJson() : [];
   }
   // C
-  post(message) {
-    let item = {
-      id: newId(this.messages),
-      content: message,
-      date: new Date(),
-    };
-    this.messages.push(item);
-    this.writeToJson();
-    return this.messages;
+  post(content) {
+    if (content) {
+      this.messages.push({
+        content: content,
+        date: new Date(),
+        id: newId(this.messages),
+      });
+      this.writeToJson();
+      return this.messages;
+    } else if (!content) {
+      return [];
+    }
   }
   // R
   get(id) {
     return this.messages.filter((message) => message.id == id)[0];
   }
+  getAll() {
+    return this.messages;
+  }
   // U
   update(id, update) {
     let index = this.messages.findIndex((message) => message.id == id);
-    this.writeToJson();
-    this.messages[index].content = update;
+    if (index >= 0) {
+      this.messages[index].content = update;
+      this.writeToJson();
+      return this.messages;
+    } else {
+      return [];
+    }
   }
   // D
   delete(id) {
-    this.messages = this.messages.filter((message) => message.id != id);
-    this.writeToJson();
-    return this.messages;
+    let index = this.messages.findIndex((message) => message.id === id);
+    if (index >= 0) {
+      this.messages = this.messages.filter((message) => message.id !== id);
+      this.writeToJson();
+      return this.messages;
+    } else {
+      return 'Message not found in database';
+    }
   }
 
   readFromJson() {
     return JSON.parse(
       fs.readFileSync(
-        __dirname + path.join(this.filepath),
+        __dirname + path.normalize(this.filepath),
         'utf8',
         (err, data) => {
           if (err) throw err;
