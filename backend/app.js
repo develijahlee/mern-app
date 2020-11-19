@@ -22,6 +22,7 @@ class MessageApp {
       date: new Date(),
     };
     this.messages.push(item);
+    this.writeToJson();
     return this.messages;
   }
   // R
@@ -31,11 +32,13 @@ class MessageApp {
   // U
   update(id, update) {
     let index = this.messages.findIndex((message) => message.id == id);
+    this.writeToJson();
     this.messages[index].content = update;
   }
   // D
   delete(id) {
     this.messages = this.messages.filter((message) => message.id != id);
+    this.writeToJson();
     return this.messages;
   }
 
@@ -49,6 +52,18 @@ class MessageApp {
         }
       )
     );
+  }
+  writeToJson() {
+    if (this.filepath) {
+      const jsonItem = JSON.stringify(this.messages);
+      fs.writeFileSync(
+        __dirname + path.normalize(this.filepath),
+        jsonItem,
+        (err) => {
+          if (err) throw err;
+        }
+      );
+    }
   }
 }
 export default MessageApp;
