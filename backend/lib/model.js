@@ -30,14 +30,13 @@ class MessageApp {
   }
   // R
   get(id) {
-    return this.messages.filter((message) => message.id === id)[0];
+    return this.messages.filter((message) => message.id == id)[0];
   }
   getAll() {
     return this.messages;
   }
-  // U
   update(id, update) {
-    let index = this.messages.findIndex((message) => message.id === id);
+    let index = this.messages.findIndex((message) => message.id == id);
     if (index >= 0) {
       this.messages[index].content = update;
       this.writeToJson();
@@ -46,7 +45,6 @@ class MessageApp {
       return [];
     }
   }
-  // D
   delete(id) {
     let index = this.messages.findIndex((message) => message.id === id);
     if (index >= 0) {
