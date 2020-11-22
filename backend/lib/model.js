@@ -46,7 +46,7 @@ class MessageApp {
     }
   }
   delete(id) {
-    let index = this.messages.findIndex((message) => message.id === id);
+    let index = this.messages.findIndex((message) => message.id == id); // using === makes index = -1 because I'm comparing a number (message.id) to a string (id)
     if (index >= 0) {
       this.messages = this.messages.filter((message) => message.id !== id);
       this.writeToJson();
