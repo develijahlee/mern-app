@@ -35,6 +35,7 @@ class MessageApp {
   getAll() {
     return this.messages;
   }
+  // U
   update(id, update) {
     let index = this.messages.findIndex((message) => message.id == id);
     if (index >= 0) {
@@ -45,6 +46,7 @@ class MessageApp {
       return [];
     }
   }
+  // D
   delete(id) {
     let index = this.messages.findIndex((message) => message.id === id);
     if (index >= 0) {
