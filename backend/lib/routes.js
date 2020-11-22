@@ -19,8 +19,9 @@ router.post('/message', async (req, res) => {
 });
 
 router.delete('/delete/:id', async (req, res) => {
+  let id = Number(req.params.id); // required so I compare a number (message.id) to a number (id) and not a string in delete(id)
   await messageApp
-    .deleteMessage(req.params.id)
+    .deleteMessage(id)
     .then((messages) => {
       res.json(messages);
     })
