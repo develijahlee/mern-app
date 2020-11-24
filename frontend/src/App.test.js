@@ -1,3 +1,9 @@
+/*
+Will fail because
+enzyme-adapter-react-16 is not compatible with 
+react version 17
+*/
+
 import React from 'react';
 // import ReactDOM from 'react-dom';
 import MessageApp from './App';
